@@ -5,6 +5,7 @@ public class BinaryTree {
 
     public BinaryTree() {
         this.root = new Node("", null, null);
+        populateTree();
     }
 
     public String translateMorseCode(String morse) {
@@ -53,7 +54,7 @@ public class BinaryTree {
         node.setElement(String.valueOf(letter));
     }
 
-    public void populateTree() {
+    private void populateTree() {
         insert(".-",   'A');
         insert("-...", 'B');
         insert("-.-.", 'C');

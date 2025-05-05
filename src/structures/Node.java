@@ -1,4 +1,5 @@
-package structures;
+javac --module-path %PATH_TO_FX% --add-modules javafx.controls HelloFX.java
+        package structures;
 
 public class Node<E> {
     private E element;

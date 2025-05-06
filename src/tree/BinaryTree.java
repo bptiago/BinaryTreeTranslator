@@ -9,15 +9,20 @@ public class BinaryTree {
     }
 
     public String translateMorseCode(String morse) {
-        String msg = "";
+        StringBuilder msg = new StringBuilder();
 
         String[] codes = morse.split(" ");
         for (String code : codes) {
-            msg += decode(root, code, 0);
+            if (code.equals("/")) {
+                msg.append(" ");
+            } else {
+                msg.append(decode(root, code, 0));
+            }
         }
 
-        return msg;
+        return msg.toString();
     }
+
 
     private String decode(Node node, String code, int index) {
         if (index == code.strip().length()) {
@@ -31,6 +36,40 @@ public class BinaryTree {
         } else {
             return decode(node.getRight(), code, index + 1);
         }
+    }
+
+    public String encodeToMorse(String text) {
+        StringBuilder morseCode = new StringBuilder();
+        text = text.toUpperCase();
+
+        for (char c : text.toCharArray()) {
+            if (c == ' ') {
+                morseCode.append("/ ");
+            } else {
+                String code = searchMorseCode(root, c, "");
+                if (code != null) {
+                    morseCode.append(code).append(" ");
+                }
+            }
+        }
+        return morseCode.toString().strip();
+    }
+
+
+    private String searchMorseCode(Node node, char letter, String path) {
+        if (node == null) return null;
+
+        if (node.getElement() != null && node.getElement().equals(String.valueOf(letter))) {
+            return path;
+        }
+
+        // Busca à esquerda (ponto)
+        String leftPath = searchMorseCode(node.getLeft(), letter, path + ".");
+        if (leftPath != null) return leftPath;
+
+        // Busca à direita (traço)
+        String rightPath = searchMorseCode(node.getRight(), letter, path + "-");
+        return rightPath;
     }
 
     public void insert(String code, char letter) {
@@ -81,6 +120,20 @@ public class BinaryTree {
         insert("-..-", 'X');
         insert("-.--", 'Y');
         insert("--..", 'Z');
+        insert("-----", '0');
+        insert(".----", '1');
+        insert("..---", '2');
+        insert("...--", '3');
+        insert("....-", '4');
+        insert(".....", '5');
+        insert("-....", '6');
+        insert("--...", '7');
+        insert("---..", '8');
+        insert("----.", '9');
+        insert(".-.-.", '+');
+        insert("-....-", '-');
+        insert("-...-", '=');
+        insert("-..-.", '/');
     }
 
     public Node getRoot() {

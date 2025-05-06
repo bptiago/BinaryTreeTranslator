@@ -51,23 +51,35 @@ public class MorseDecoderSwing {
         private void drawTree(Graphics g, tree.Node node, int x, int y, int hGap) {
             if (node == null) return;
 
-            // Desenha o elemento do nó, centralizando a letra ou símbolo
-            g.setFont(new Font("Arial", Font.PLAIN, 14));
-            String element = node.getElement().isEmpty() ? "•" : node.getElement(); // Se vazio, desenha o ponto
+            // Define a fonte
+            g.setFont(new Font("Arial", Font.BOLD, 14));
             FontMetrics metrics = g.getFontMetrics();
+            String element = node.getElement().isEmpty() ? "•" : node.getElement();
             int width = metrics.stringWidth(element);
-            g.drawString(element, x - width / 2, y);  // Centraliza o texto
+            int height = metrics.getHeight();
 
-            // Desenha as linhas entre os nós
+            // Ajusta a altura para evitar que letras fiquem sobre as linhas
+            int textY = y + height / 2;
+
+            // Desenha o texto centralizado no nó
+            g.drawString(element, x - width / 2, textY);
+
+            int childY = y + 50;  // Espaçamento vertical para os filhos
+
+            // Desenha linhas e chama recursivamente para o filho esquerdo
             if (node.getLeft() != null) {
-                g.drawLine(x, y + 10, x - hGap, y + 50);
-                drawTree(g, node.getLeft(), x - hGap, y + 50, hGap / 2);
+                int childX = x - hGap;
+                g.drawLine(x, textY + 5, childX, childY - height / 2);
+                drawTree(g, node.getLeft(), childX, childY, hGap / 2);
             }
 
+            // Desenha linhas e chama recursivamente para o filho direito
             if (node.getRight() != null) {
-                g.drawLine(x, y + 10, x + hGap, y + 50);
-                drawTree(g, node.getRight(), x + hGap, y + 50, hGap / 2);
+                int childX = x + hGap;
+                g.drawLine(x, textY + 5, childX, childY - height / 2);
+                drawTree(g, node.getRight(), childX, childY, hGap / 2);
             }
         }
+
     }
 }

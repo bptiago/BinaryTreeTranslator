@@ -82,4 +82,8 @@ public class BinaryTree {
         insert("-.--", 'Y');
         insert("--..", 'Z');
     }
+
+    public Node getRoot() {
+        return root;
+    }
 }
